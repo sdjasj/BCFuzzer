@@ -1,0 +1,213 @@
+auth_type: permissionedWithCert
+blockchain:
+- chainId: chain1
+  genesis: ../config/wx-org13.chainmaker.org/chainconfig/bc1.yml
+- chainId: chain2
+  genesis: ../config/wx-org13.chainmaker.org/chainconfig/bc2.yml
+- chainId: chain3
+  genesis: ../config/wx-org13.chainmaker.org/chainconfig/bc3.yml
+- chainId: chain4
+  genesis: ../config/wx-org13.chainmaker.org/chainconfig/bc4.yml
+consensus:
+  raft:
+    async_wal_save: true
+    snap_count: 10
+    ticker: 1
+crypto_engine: tjfoc
+log:
+  config_file: ../config/wx-org13.chainmaker.org/log.yml
+monitor:
+  enabled: false
+  port: 14331
+net:
+  listen_addr: /ip4/0.0.0.0/tcp/11311
+  provider: LibP2P
+  seeds:
+  - /ip4/127.0.0.1/tcp/11301/p2p/QmVuAwhhzcfu9nVDqbnS14wGbbuqcUoTycsojXXuqGR8G3
+  - /ip4/127.0.0.1/tcp/11302/p2p/QmdsD3vK3oJX2YrN21BTbUKawnyP7TvR6G1G1e7iXZn1oS
+  - /ip4/127.0.0.1/tcp/11303/p2p/QmVe3v18RyUjsY8ocMXtYdARELLcYE8kh6AcbiKACnhQq9
+  - /ip4/127.0.0.1/tcp/11304/p2p/QmW7QZmQWFoHCQfn7piMiWD9JmtK7wmSuTWUaihHCQWn9q
+  - /ip4/127.0.0.1/tcp/11305/p2p/Qmd8QKySriLiP4Q3iTQ6kx8S6b9odygnqrMwRrTfqD8eCH
+  - /ip4/127.0.0.1/tcp/11306/p2p/QmNrpx1YT7M3Vkgae64TVUYn1bLER1H4JmryiJWcimSmqU
+  - /ip4/127.0.0.1/tcp/11307/p2p/QmQC1P9Q6w72Uxv7oVPT3QqWh6YjBQz8uPVmxdPmP3Hj5b
+  - /ip4/127.0.0.1/tcp/11308/p2p/QmRDarCCbjCyCch4DzhAtFWXBh4bhTU7R4qTMhzqmBEZTc
+  - /ip4/127.0.0.1/tcp/11309/p2p/QmZ7Ty7J9RWcKo1rsi6fh7dxB3WK5PQpodcZuotivxUWju
+  - /ip4/127.0.0.1/tcp/11310/p2p/QmYpCShbjdgVNkhVhXSTuws9s6edYfBZLeiBZUU4YZ171A
+  - /ip4/127.0.0.1/tcp/11311/p2p/QmPrLbMH96xujd1KwiEujFhEWUpMpLdUScbDAWRNTgRsBd
+  - /ip4/127.0.0.1/tcp/11312/p2p/QmRmKdjiGyXZWmA9AME773vTZAS1HyQkeMpGBvQKcT6SpE
+  - /ip4/127.0.0.1/tcp/11313/p2p/QmNg8qR3dNc2PexRxBN5dw3vPq3NTdnSjNftxY1Eib351e
+  tls:
+    cert_enc_file: ../config/wx-org13.chainmaker.org/certs/node/consensus1/consensus1.tls.enc.crt
+    cert_file: ../config/wx-org13.chainmaker.org/certs/node/consensus1/consensus1.tls.crt
+    enabled: true
+    priv_enc_key_file: ../config/wx-org13.chainmaker.org/certs/node/consensus1/consensus1.tls.enc.key
+    priv_key_file: ../config/wx-org13.chainmaker.org/certs/node/consensus1/consensus1.tls.key
+node:
+  cert_cache_size: 1000
+  cert_file: ../config/wx-org13.chainmaker.org/certs/node/consensus1/consensus1.sign.crt
+  cert_key_usage_check: true
+  fast_sync:
+    enabled: true
+  org_id: wx-org13.chainmaker.org
+  pkcs11:
+    enabled: false
+    hash: SHA256
+    label: HSM
+    library: /usr/local/lib64/pkcs11/libupkcs11.so
+    password: 11111111
+    session_cache_size: 10
+    type: pkcs11
+  priv_key_file: ../config/wx-org13.chainmaker.org/certs/node/consensus1/consensus1.sign.key
+pprof:
+  enabled: false
+  port: 24331
+rpc:
+  blacklist:
+    addresses: null
+  check_chain_conf_trust_roots_change_interval: 60
+  gateway:
+    enabled: false
+    max_resp_body_size: -2
+  host: ../config/wx-org13.chainmaker.org/chainconfig/bc2.yml
+  max_recv_msg_size: 100
+  max_send_msg_size: 100
+  port: 12311
+  provider: grpc
+  ratelimit:
+    enabled: false
+    token_bucket_size: -1
+    token_per_second: -1
+    type: 0
+  subscriber:
+    ratelimit:
+      token_bucket_size: 100
+      token_per_second: 100
+  sync_tx_result_timeout: 60
+  tls:
+    cert_enc_file: ../config/wx-org13.chainmaker.org/certs/node/consensus1/consensus1.tls.enc.crt
+    cert_file: ../config/wx-org13.chainmaker.org/certs/node/consensus1/consensus1.tls.crt
+    mode: twoway
+    priv_key_file: ../config/wx-org13.chainmaker.org/certs/node/consensus1/consensus1.tls.key
+scheduler:
+  rwset_log: false
+storage:
+  archive_check_interval: 10
+  bigfilter_config:
+    fp_rate: 1.0e-09
+    redis_hosts_port: 127.0.0.1:6300,127.0.0.1:6301
+    redis_password: abcpass
+    tx_capacity: 1000000000
+  blockdb_config:
+    leveldb_config:
+      store_path: ../data/wx-org13.chainmaker.org/block
+      write_buffer_size: 64
+    provider: leveldb
+  contract_eventdb_config:
+    provider: sql
+    sqldb_config:
+      dsn: root:password@tcp(127.0.0.1:3306)/
+      sqldb_type: mysql
+  disable_block_file_db: false
+  disable_contract_eventdb: true
+  disable_historydb: false
+  disable_resultdb: false
+  disable_state_cache: false
+  enable_bigfilter: false
+  enable_rwc: true
+  historydb_config:
+    disable_account_history: true
+    disable_contract_history: true
+    disable_key_history: false
+    leveldb_config:
+      store_path: ../data/wx-org13.chainmaker.org/history
+      write_buffer_size: 64
+    provider: leveldb
+  logdb_segment_async: false
+  logdb_segment_size: 128
+  read_bfdb_timeout: 1000
+  restore_interval: 60
+  resultdb_config:
+    leveldb_config:
+      store_path: ../data/wx-org13.chainmaker.org/result
+    provider: leveldb
+  rolling_window_cache_capacity: 55000
+  slow_log: 0
+  state_cache_config:
+    clean_window: 1000000000
+    hard_max_cache_size: 1024
+    life_window: 3000000000000
+    max_entry_size: 500
+  statedb_config:
+    leveldb_config:
+      store_path: ../data/wx-org13.chainmaker.org/state
+      write_buffer_size: 256
+    provider: leveldb
+  store_path: ../data/wx-org13.chainmaker.org/ledgerData1
+  unarchive_block_height: 300000
+  write_block_type: 0
+tx_filter:
+  birds_nest:
+    cuckoo:
+      bits_per_item: 11
+      key_type: 1
+      max_num_keys: 2000000
+      table_type: 0
+      tags_per_bucket: 2
+    length: 10
+    rules:
+      absolute_expire_time: 172800
+    snapshot:
+      block_height:
+        interval: 10
+      path: ../data/wx-org13.chainmaker.org/tx_filter
+      serialize_interval: 10
+      timed:
+        interval: 10
+      type: 0
+  sharding:
+    birds_nest:
+      cuckoo:
+        bits_per_item: 11
+        key_type: 1
+        max_num_keys: 2000000
+        table_type: 0
+        tags_per_bucket: 2
+      rules:
+        absolute_expire_time: 172800
+    length: 5
+    snapshot:
+      block_height:
+        interval: 10
+      path: ../data/wx-org13.chainmaker.org/tx_filter
+      serialize_interval: 10
+      timed:
+        interval: 10
+      type: 0
+    timeout: 60
+  type: 0
+txpool:
+  batch_create_timeout: 50
+  batch_max_size: 100
+  common_queue_num: 8
+  is_dump_txs_in_queue: true
+  max_txpool_size: 50000
+  pool_type: normal
+vm:
+  go:
+    contract_engine:
+      host: 127.0.0.1
+      max_connection: 5
+      port: 22361
+    data_mount_path: ../data/wx-org13.chainmaker.org/go
+    dial_timeout: 10
+    enable: false
+    log_in_console: false
+    log_level: INFO
+    log_mount_path: ../log/wx-org13.chainmaker.org/go
+    max_concurrency: 20
+    max_recv_msg_size: 100
+    max_send_msg_size: 100
+    protocol: tcp
+    runtime_server:
+      port: 32361
+

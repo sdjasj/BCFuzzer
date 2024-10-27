@@ -1,0 +1,1 @@
+seid start --chain-id sei --inv-check-period 0 > /sei-protocol/sei-chain/build/generated/logs/seid-3.log 2>&1 &

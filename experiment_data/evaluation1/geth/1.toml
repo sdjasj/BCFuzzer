@@ -1,0 +1,99 @@
+[Eth]
+NetworkId = 123454321
+SyncMode = "snap"
+EthDiscoveryURLs = []
+SnapDiscoveryURLs = []
+NoPruning = false
+NoPrefetch = false
+TxLookupLimit = 2350000
+TransactionHistory = 2350000
+LightPeers = 100
+DatabaseFreezer = "geth"
+TrieCleanCache = 154
+TrieDirtyCache = 256
+TrieTimeout = 3600000000000
+SnapshotCache = 102
+Preimages = false
+EnablePreimageRecording = false
+RPCGasCap = 50000000
+RPCEVMTimeout = 5000000000
+
+[Eth.Miner]
+GasFloor = 0
+GasCeil = 30000000
+GasPrice = 1000000000
+Recommit = 2000000000
+NewPayloadTimeout = 2000000000
+
+[Eth.TxPool]
+Locals = []
+NoLocals = false
+Journal = "transactions.rlp"
+Rejournal = 3600000000000
+PriceLimit = 2684354560
+PriceBump = 10
+AccountSlots = 16
+GlobalSlots = 1024
+AccountQueue = 64
+GlobalQueue = 1024
+Lifetime = 10800000000000
+
+[Eth.BlobPool]
+Datadir = "blobpool"
+Datacap = 2684354560
+PriceBump = 100
+
+[Eth.GPO]
+Blocks = 20
+Percentile = 60
+MaxHeaderHistory = 1024
+MaxBlockHistory = 2000000000
+MaxPrice = 500000000000
+IgnorePrice = 2
+
+[Node]
+DataDir = "node2"
+IPCPath = "geth.ipc"
+HTTPHost = ""
+HTTPPort = 8545
+HTTPVirtualHosts = ["localhost"]
+HTTPModules = ["net", "web3", "eth"]
+AuthAddr = "localhost"
+AuthPort = 8552
+AuthVirtualHosts = ["localhost"]
+WSHost = ""
+WSPort = 8546
+WSModules = ["net", "web3", "eth"]
+GraphQLVirtualHosts = ["localhost"]
+BatchRequestLimit = 1000
+BatchResponseMaxSize = 25000000
+
+[Node.P2P]
+MaxPeers = 50
+NoDiscovery = false
+DiscoveryV4 = true
+BootstrapNodes = ["enode://736e6c1b287d08e0508cec7ef0bbcf307dd1ce96018c5fc368b2f20c30231135877d79f286c08c8f3ed53122064e9b972ccb58e789572eca5281597190cd2258@127.0.0.1:0?discport=30305"]
+BootstrapNodesV5 = ["enode://736e6c1b287d08e0508cec7ef0bbcf307dd1ce96018c5fc368b2f20c30231135877d79f286c08c8f3ed53122064e9b972ccb58e789572eca5281597190cd2258@127.0.0.1:0?discport=30305"]
+StaticNodes = []
+TrustedNodes = []
+ListenAddr = ":30307"
+DiscAddr = ""
+
+[Node.HTTPTimeouts]
+ReadTimeout = 30000000000
+ReadHeaderTimeout = 30000000000
+WriteTimeout = 30000000000
+IdleTimeout = 120000000000
+
+[Metrics]
+HTTP = "127.0.0.1"
+Port = 6060
+InfluxDBDatabase = "geth"
+InfluxDBUsername = "test"
+InfluxDBPassword = "test"
+InfluxDBTags = "host=localhost"
+InfluxDBToken = "test"
+InfluxDBBucket = "geth"
+InfluxDBOrganization = "geth"
+
+

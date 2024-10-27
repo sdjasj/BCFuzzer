@@ -1,0 +1,56 @@
+admin_service:
+  port: 46369
+api:
+  address: 127.0.0.1:37345
+base:
+  data_dir: /tmp/.tmpP5gE6a/1
+  waypoint:
+    from_config: 0:b38763a443a9d5e789fdfa9092c873214ccfe64c129c1d6b800ff6301b17e1da
+consensus:
+  safety_rules:
+    backend:
+      namespace: null
+      path: 127.0.0.1:37345
+      type: on_disk_storage
+    initial_safety_rules_config:
+      from_file:
+        identity_blob_path: /tmp/.tmpP5gE6a/1/validator-identity.yaml
+        waypoint:
+          from_config: 0:b38763a443a9d5e789fdfa9092c873214ccfe64c129c1d6b800ff6301b17e1da
+    service:
+      type: thread
+execution:
+  concurrency_level: 1
+  genesis_file_location: /tmp/.tmpP5gE6a/1/genesis.blob
+inspection_service:
+  port: 38559
+storage:
+  backup_service_address: 127.0.0.1:39907
+validator_network:
+  connection_backoff_base: 2
+  connectivity_check_interval_ms: 5000
+  discovery_method: onchain
+  discovery_methods: []
+  enable_latency_aware_dialing: true
+  enable_proxy_protocol: false
+  identity:
+    path: /tmp/.tmpP5gE6a/1/validator-identity.yaml
+    type: from_file
+  inbound_rx_buffer_size_bytes: null
+  inbound_tx_buffer_size_bytes: null
+  listen_address: /ip4/0.0.0.0/tcp/38843
+  max_frame_size: 2
+  max_inbound_connections: 100
+  max_message_size: 67108864
+  max_outbound_connections: 6
+  mutual_authentication: false
+  network_channel_size: 1024
+  network_id: validator
+  outbound_rate_limit_config: null
+  outbound_tx_buffer_size_bytes: null
+  ping_failures_tolerated: 3
+  ping_interval_ms: 10000
+  ping_timeout_ms: 20000
+  runtime_threads: null
+  seed_addrs: {}
+  seeds: {}

@@ -1,0 +1,88 @@
+admin_service:
+  port: 0
+api:
+  address: 127.0.0.1:45701
+base:
+  data_dir: /tmp/.tmpVNJecV/1
+  waypoint:
+    from_config: 0:115a5b277e25b0b09d02e318d363db5785aef618413eb5a07a5d4a2011c538a2
+consensus:
+  safety_rules:
+    backend:
+      namespace: null
+      path: secure_storage.json
+      type: on_disk_storage
+    initial_safety_rules_config:
+      from_file:
+        identity_blob_path: /tmp/.tmpVNJecV/1/validator-identity.yaml
+        waypoint:
+          from_config: 0:115a5b277e25b0b09d02e318d363db5785aef618413eb5a07a5d4a2011c538a2
+    service:
+      type: thread
+execution:
+  concurrency_level: 1
+  genesis_file_location: /tmp/.tmpVNJecV/1/genesis.blob
+full_node_networks:
+- connection_backoff_base: 2
+  connectivity_check_interval_ms: 5000
+  discovery_method: none
+  discovery_methods: []
+  enable_latency_aware_dialing: true
+  enable_proxy_protocol: false
+  identity:
+    path: /tmp/.tmpVNJecV/1/vfn-identity.yaml
+    type: from_file
+  inbound_rate_limit_config: null
+  inbound_rx_buffer_size_bytes: null
+  inbound_tx_buffer_size_bytes: null
+  listen_address: /ip4/0.0.0.0/tcp/42327
+  max_connection_delay_ms: 60000
+  max_frame_size: 4194304
+  max_inbound_connections: 100
+  max_message_size: 67108864
+  max_outbound_connections: 0
+  max_parallel_deserialization_tasks: 128
+  mutual_authentication: false
+  network_channel_size: 1024
+  network_id:
+    private: vfn
+  outbound_rate_limit_config: null
+  outbound_rx_buffer_size_bytes: null
+  outbound_tx_buffer_size_bytes: null
+  ping_failures_tolerated: 3
+  ping_interval_ms: 10000
+  ping_timeout_ms: 20000
+  runtime_threads: null
+  seed_addrs: {}
+  seeds: {}
+inspection_service:
+  port: 35267
+storage:
+  backup_service_address: 127.0.0.1:40589
+validator_network:
+  connection_backoff_base: 2
+  connectivity_check_interval_ms: 2147483647
+  discovery_method: onchain
+  discovery_methods: []
+  enable_proxy_protocol: false
+  identity:
+    path: /tmp/.tmpVNJecV/1/validator-identity.yaml
+    type: from_file
+  inbound_rate_limit_config: null
+  inbound_tx_buffer_size_bytes: null
+  listen_address: /ip4/0.0.0.0/tcp/35435
+  max_connection_delay_ms: 2147483647
+  max_frame_size: 0
+  max_inbound_connections: 100
+  max_message_size: 67108864
+  max_outbound_connections: 6
+  max_parallel_deserialization_tasks: 4294967296
+  mutual_authentication: true
+  network_channel_size: 1024
+  outbound_rate_limit_config: null
+  outbound_rx_buffer_size_bytes: null
+  ping_interval_ms: 10000
+  ping_timeout_ms: 20000
+  runtime_threads: null
+  seed_addrs: {}
+  seeds: {}
