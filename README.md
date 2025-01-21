@@ -6,13 +6,12 @@ As a decentralized system, blockchain allows different nodes to have divergent c
 
 To help users understand the repository structure of Chord, we provide the following explanation:
 
-`source_code`: the source code of BCFuzzer in 5 blockchain systems
+`source_code`: the source code of BCFuzzer in 4 blockchain systems
 
 - **Aptos**
 - **chainmaker**
 - **fisco**
 - **geth**
-- **sei**
 
 `experiment_data`: All experimental data is located in the `experiment_data` directory.
 
@@ -64,18 +63,6 @@ cd source_code/fisco
 python3 main.py
 ```
 
-## BCFuzzer for Sei
-
-### prerequisites
-
-Setup Sei network environment, can be found in https://www.docs.sei.io/
-
-### setup Sei testnet & start testing
-
-```
-cd source_code/sei
-python3 main.py
-```
 
 ## BCFuzzer for ChainMaker
 
