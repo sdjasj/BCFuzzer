@@ -14,7 +14,7 @@ def get_all_keys(d, value_of_config_key, origin_key_to_value, parent_key=''):
     return keys
 
 
-# 函数根据路径设置字典中对应的值
+
 def set_value_by_path(d, path, value):
     keys = path.split('.')
     for key in keys[:-1]:
@@ -42,7 +42,7 @@ def get_all_values(d):
     return values
 
 
-# 递归函数，删除嵌套字典中的键
+
 def delete_key(d, key_path):
     keys = key_path.split('.')
     for key in keys[:-1]:
@@ -55,10 +55,10 @@ def remove_0x_and_plus_offset(content):
     # with open(file_path, 'r', encoding='utf-8') as file:
     #     content = file.read()
 
-    # 移除 '0x' 后面紧跟的数字
+
     content = re.sub(r'0x[0-9a-fA-F]+', '', content)
 
-    # 移除 '+0x' 后面紧跟的数字
+
     content = re.sub(r'\+0x[0-9a-fA-F]+', '', content)
 
     return content
@@ -68,11 +68,11 @@ def extract_panic_section(file_path):
     with open(file_path, 'r', encoding='utf-8', errors='ignore') as file:
         content = file.read()
 
-    # 查找 "panic" 字符串的起始位置
+
     panic_index = content.find("panic")
 
     if panic_index != -1:
-        # 截取从 "panic" 开始到文件末尾的内容
+
         panic_section = content[panic_index:]
         return panic_section
     else:

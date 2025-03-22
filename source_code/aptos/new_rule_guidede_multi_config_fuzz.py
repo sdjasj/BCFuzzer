@@ -1,5 +1,6 @@
 import collections
 import copy
+import json
 import logging
 import os
 import random
@@ -20,22 +21,22 @@ RESULT_PATH = "/root/test_evaluation3/test_result/"
 
 def init_log(name, path):
     # log define
-    # 为每个对象创建一个独立的 logger
+
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
 
-    # 为每个对象创建一个独立的文件处理器
+
     handler = logging.FileHandler(path + '{}.log'.format(name))
     handler.setLevel(logging.DEBUG)
 
-    # 定义日志格式，包含自定义时间格式
+
     formatter = logging.Formatter(
         '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        datefmt='%Y-%m-%d %H:%M:%S'  # 自定义时间格式
+        datefmt='%Y-%m-%d %H:%M:%S'
     )
     handler.setFormatter(formatter)
 
-    # 将处理器添加到 logger 中
+
     logger.addHandler(handler)
     return logger
 
@@ -45,7 +46,7 @@ success_set = collections.defaultdict(set)
 lock = threading.Lock()
 
 def add_failure_rule(random_key, new_value):
-    with lock:  # 确保线程安全
+    with lock:
         failure_set[random_key].add(new_value)
         failure_count[random_key] += 1
         if failure_count[random_key] >= consistent_threshold:
@@ -53,33 +54,33 @@ def add_failure_rule(random_key, new_value):
         print(f"new failure rule {random_key} : {new_value}")
 
 def add_success_rule(random_key, new_value):
-    with lock:  # 确保线程安全
+    with lock:
         success_set[random_key].add(new_value)
         print(f"new success rule {random_key} : {new_value}")
 
 def check_failure_rule(random_key, new_value):
-    with lock:  # 确保线程安全
+    with lock:
         return new_value in failure_set[random_key]
 
 def check_success_rule(random_key, new_value):
-    with lock:  # 确保线程安全
+    with lock:
         return new_value in success_set[random_key]
 
 
 
-consistent_items_set = set()  # 存储导致节点无法启动超过10次的配置项
-inconsistent_items_set = set()  # 存储允许节点重新启动的配置项
-failure_count = collections.defaultdict(int)  # 记录每个配置项失败的次数
-consistent_threshold = 10  # 失败阈值
+consistent_items_set = set()
+inconsistent_items_set = set()
+failure_count = collections.defaultdict(int)
+consistent_threshold = 10
 
 
 class SingleNodeFuzzer:
     def __init__(self, name, root_result_path=RESULT_PATH + "test_result_" + str(time.time()) + "/", node_type="fuzzing"):
-        # name: 0/1/2/3
+
         self.name = name
         self.node_type = node_type
 
-        # 记录测试失败的目录
+
         self.current_result_path = root_result_path + name + "/"
         self.current_result_panic_path = self.current_result_path + "panic_error/"
         self.current_result_start_error_path = self.current_result_path + "start_error/"
@@ -87,10 +88,10 @@ class SingleNodeFuzzer:
         self.init_resource()
         self.lock = threading.Lock()
 
-        # 初始化日志
+
         self.logger = init_log(self.name, self.current_result_path)
 
-        # 指定检查次数
+
         self.CHECK_TIMES = 5
         self.RUN_TIME_FOR_CRASH = 20
 
@@ -142,37 +143,30 @@ class SingleNodeFuzzer:
         os.makedirs(self.current_result_runtime_error_path)
 
     def load_config(self):
-        # 备份原始配置文件以便恢复
+
         os.system("cp {} {}".format(self.current_config_file, self.origin_config_file))
 
-        # 读取并解析 YAML 文件
+
         with open(self.current_config_file, 'r', encoding='utf-8') as file:
             config = yaml.safe_load(file)
 
         self.config_pool.append(config)
 
-        # 获取所有键和值
+
         self.config_all_keys = util.get_all_keys(config, self.value_to_config_key, self.origin_key_to_value)
         self.config_all_values = util.get_all_values(config)
 
-        # 按类型组织值
+
         for ele in self.config_all_values:
             self.type_to_values_map[type(ele)].append(ele)
 
-        # 根据键值对初始化 ConfigItem
+
         for key, value in self._flatten_config(config).items():
             config_type = self._infer_config_type(key, value)  # 推断配置类型
             self.config_items.append(ConfigItem(key=key, value=value, config_type=config_type))
 
     def _flatten_config(self, config, parent_key='', separator='.'):
-        """
-        将嵌套的配置字典展平为单层字典。
 
-        :param config: 嵌套的字典配置。
-        :param parent_key: 父键名（用于递归）。
-        :param separator: 键之间的分隔符。
-        :return: 展平后的字典。
-        """
         items = {}
         for k, v in config.items():
             new_key = f"{parent_key}{separator}{k}" if parent_key else k
@@ -183,25 +177,17 @@ class SingleNodeFuzzer:
         return items
 
     def _infer_config_type(self, key, config_type_map_file):
-        """
-        根据键从 JSON 文件中获取配置类型。
 
-        :param key: 配置项的键。
-        :param config_type_map_file: 包含配置类型映射的 JSON 文件路径。
-        :return: ConfigType 枚举值或 ConfigType.Other。
-        """
-        import json
 
-        # 加载 JSON 文件
         with open(config_type_map_file, 'r', encoding='utf-8') as file:
             config_type_map = json.load(file)
 
-        # 从 JSON 中查找匹配的类型
+
         for pattern, config_type in config_type_map.items():
             if pattern.lower() in key.lower():
                 return ConfigType(config_type)
 
-        # 默认返回 Other
+
         return ConfigType.Other
     def restart_node(self):
         os.system('./{}/stop.sh'.format(self.name))
@@ -210,7 +196,7 @@ class SingleNodeFuzzer:
 
     def check_alive(self):
         command = "ps -ef | grep {} | grep -v grep".format(self.current_config_file)
-        # 使用 subprocess.run 执行命令并捕获输出
+
         result = subprocess.run(command, shell=True, capture_output=True, text=True)
         if result.stdout.strip():
             return True
@@ -231,7 +217,7 @@ class SingleNodeFuzzer:
 
     def write_config_for_analysis(self, d, new_config):
         command = "ps -ef | grep {} | grep -v grep".format(self.current_config_file)
-        # 使用 subprocess.run 执行命令并捕获输出
+
         result = subprocess.run(command, shell=True, capture_output=True, text=True)
 
         if result.stdout.strip():
@@ -249,19 +235,13 @@ class SingleNodeFuzzer:
         return False
 
     def generate_value_by_key(self, random_key):
-        """
-        根据随机键找出对应的 ConfigItem，并通过变异生成新值。
 
-        :param random_key: 随机选择的键。
-        :return: 变异后的新值。
-        """
-        # 在配置项列表中查找匹配的 ConfigItem
         matching_item = next((item for item in self.config_items if item.key == random_key), None)
 
         if matching_item is None:
-            raise KeyError(f"Key '{random_key}' 不存在于配置项中。")
+            raise KeyError(f"Key '{random_key}' not in config items。")
 
-        # 对匹配的 ConfigItem 进行变异并返回新值
+
         matching_item.mutate()
         return matching_item.value
 
@@ -476,9 +456,9 @@ class MultinodeFuzzer:
         return "\n".join(output)
 
     def fuzz(self):
-        # 将所有节点的fuzz()函数提交给线程池
+
         futures = {self.executor.submit(obj.fuzz): obj for obj in self.selected_single_nodes}
-        # 持续监控fuzz()的执行状态
+
         while True:
             for future in as_completed(futures):
                 obj = futures[future]
@@ -535,66 +515,3 @@ class MultinodeFuzzer:
 
                 except Exception as e:
                     self.logger.error(f"Node {obj.name} test execution error: {str(e)}")
-
-# class MultinodeFuzzer:
-#     def __init__(self):
-#         self.clean_flag = False
-#
-#         # root path for single node fuzzer
-#         self.cur_result_path = RESULT_PATH + "test_result_" + str(time.time()) + "/"
-#         self.init_resource()
-#
-#         self.logger = init_log("multinodeFuzzer", self.cur_result_path)
-#         self.single_node_num = 13
-#         self.single_node_names = []
-#         for i in range(1, self.single_node_num + 1):
-#             self.single_node_names.append("wx-org" + str(i))
-#         # init singleNodeFuzzer
-#         # 33% for Byzantine
-#         self.selected_single_node_num = self.single_node_num // 3
-#         self.selected_single_node_names = random.sample(self.single_node_names, self.selected_single_node_num)
-#         self.selected_single_nodes = []
-#         self.logger.info("init singleNodeFuzzer.....")
-#         for name in self.selected_single_node_names:
-#             self.selected_single_nodes.append(SingleNodeFuzzer(name=name, root_result_path=self.cur_result_path))
-#             self.logger.info("init fuzzer of node {} successfully".format(name))
-#         self.logger.info("init fuzzer of all nodes successfully")
-#
-#
-#     def check_single_node_alive(self, name):
-#         command = "ps -ef | grep chainmaker | grep -v grep | grep {}.chainmaker.org".format(name)
-#         # 使用 subprocess.run 执行命令并捕获输出
-#         result = subprocess.run(command, shell=True, capture_output=True, text=True)
-#         if result.stdout.strip():
-#             return True
-#         return False
-#
-#     def check_normal_nodes_alive(self):
-#         for node in self.single_node_names:
-#             if node not in self.selected_single_node_names:
-#                 if not self.check_single_node_alive(node):
-#                     self.logger.info("normal node {} panic!!!!!!!!!!!!!".format(node))
-#                     return False
-#         return True
-#
-#     def init_resource(self):
-#         os.makedirs(self.cur_result_path)
-#
-#     def fuzz_node(self, args):
-#         node, i = args
-#         node.fuzz(i)
-#
-#     def fuzz(self):
-#         for i in range(100000):
-#             random.shuffle(self.selected_single_nodes)
-#
-#             # 创建一个包含所有节点的 (node, i) 参数对的列表
-#             tasks = [(node, i) for node in self.selected_single_nodes]
-#             self.logger.info("fuzz all the selected nodes.......")
-#             # 使用多进程池来并行处理 fuzz 操作
-#             with Pool() as pool:
-#                 pool.map(self.fuzz_node, tasks)  # 等待所有进程完成
-#             time.sleep(20)
-#             self.logger.info("finish multinode fuzz for {} times".format(i + 1))
-#             if not self.check_normal_nodes_alive():
-#                 return
