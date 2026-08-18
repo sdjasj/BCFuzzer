@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+
+# Runtime artifacts (campaigns produce these under --output dirs)
+runtime/
+state/
+*.gcda
+*.gcov
+*.lcov
+goc.log
+sdk.log.*
+coverage/
+
+# Editor / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+
+# Temporary build outputs
+/tmp/
+*.tmp

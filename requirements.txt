@@ -1,0 +1,9 @@
+# BCFuzzer runtime dependencies
+pyyaml>=6.0
+requests>=2.28
+urllib3>=1.26
+eth-account>=0.9
+eth-keys>=0.4
+eth-utils>=2.1
+eth-abi>=4.0
+rlp>=3.0

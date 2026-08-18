@@ -1,0 +1,71 @@
+{
+  "version": 1,
+  "seed": 20270802,
+  "repeats": 2,
+  "timeout_seconds": 30,
+  "targets": [
+    {
+      "name": "local-demo",
+      "cwd": ".",
+      "env": {
+        "PYTHONHASHSEED": "{seed}"
+      },
+      "common_commands": [
+        {
+          "name": "ordinary-test-setup",
+          "argv": ["{python}", "tests/fixture_command.py", "common"]
+        }
+      ],
+      "config_cases": [
+        {
+          "name": "config-a",
+          "commands": [
+            {
+              "name": "apply-local-test-config",
+              "argv": ["{python}", "tests/fixture_command.py", "config"]
+            }
+          ]
+        }
+      ],
+      "fixed_interaction": {
+        "name": "fixed-transaction",
+        "commands": [
+          {
+            "name": "fixed-input",
+            "argv": ["{python}", "tests/fixture_command.py", "interaction", "10"]
+          }
+        ]
+      },
+      "varied_interactions": [
+        {
+          "name": "transaction-a",
+          "commands": [
+            {
+              "name": "transaction-a",
+              "argv": ["{python}", "tests/fixture_command.py", "interaction", "14"]
+            }
+          ]
+        },
+        {
+          "name": "message-a",
+          "commands": [
+            {
+              "name": "message-a",
+              "argv": ["{python}", "tests/fixture_command.py", "interaction", "16"]
+            }
+          ]
+        }
+      ],
+      "cleanup_commands": [
+        {
+          "name": "local-cleanup",
+          "argv": ["{python}", "tests/fixture_command.py", "cleanup"]
+        }
+      ],
+      "coverage": {
+        "globs": ["{coverage_dir}/**/*"],
+        "metrics_file": "{coverage_dir}/summary.json"
+      }
+    }
+  ]
+}
